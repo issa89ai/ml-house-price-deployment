@@ -1,82 +1,62 @@
-# House Price Prediction API
+# 🏠 House Price Prediction — ML Deployment
 
-An end-to-end machine learning application that predicts house prices using a trained Random Forest regression model.  
-The project includes:
-
-- a **FastAPI backend**
-- a **Streamlit frontend**
-- **Docker** support for containerized deployment
-
-This project demonstrates how to move from a trained machine learning model to a usable application with an API and user interface.
+An end-to-end machine learning application that predicts California house prices using a trained Random Forest regression model, served via FastAPI with a Streamlit frontend.
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
-This application allows a user to enter housing-related features such as income, house age, rooms, population, and location, then receive a predicted house price.
+Users enter housing features (income, age, rooms, population, location) and receive a predicted house price. Built to demonstrate a complete ML deployment workflow:
 
-The project was built to demonstrate a complete machine learning workflow:
-
-1. Train a regression model
-2. Save the trained model
-3. Expose the model through a FastAPI endpoint
-4. Build a frontend using Streamlit
+1. Train a regression model (scikit-learn)
+2. Save the model with Joblib
+3. Expose it via a FastAPI REST endpoint
+4. Build a Streamlit frontend
 5. Containerize the backend with Docker
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Python**
-- **scikit-learn**
-- **pandas**
-- **FastAPI**
-- **Uvicorn**
-- **Pydantic**
-- **Streamlit**
-- **Requests**
-- **Docker**
-- **Joblib**
+- **Python** — scikit-learn, pandas, Joblib
+- **FastAPI** + **Uvicorn** — REST API backend
+- **Pydantic** — request validation
+- **Streamlit** — interactive frontend
+- **Docker** — containerized backend deployment
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
-```bash
-housing_ml_deployment/
-│
+```
+ml-house-price-deployment/
 ├── app/
-│   ├── main.py
-│   ├── model_loader.py
-│   └── schema.py
-│
+│   ├── main.py           # FastAPI app and /predict endpoint
+│   ├── model_loader.py   # Model loading logic
+│   └── schema.py         # Pydantic request schema
 ├── frontend/
-│   └── streamlit_app.py
-│
+│   └── streamlit_app.py  # Streamlit UI
 ├── model/
-│   └── train_model.py
-│
-├── .gitignore
+│   └── train_model.py    # Model training script
 ├── Dockerfile
-├── README.md
-└── requirements.txt
-How It Works
-Backend
+├── requirements.txt
+└── README.md
+```
 
-The FastAPI backend loads a trained machine learning model and exposes a /predict endpoint.
+---
 
-Frontend
+## 🔄 How It Works
 
-The Streamlit frontend provides a simple interface where users can enter feature values and request a prediction.
-
-Prediction Flow
+```
 User → Streamlit Frontend → FastAPI Backend → ML Model → Prediction Response
-API Endpoint
-POST /predict
+```
 
-Accepts house feature values and returns the predicted house price.
+### API Endpoint
 
-Example input
+**POST** `/predict`
+
+Example input:
+```json
 {
   "MedInc": 8.3252,
   "HouseAge": 41.0,
@@ -87,84 +67,67 @@ Example input
   "Latitude": 37.88,
   "Longitude": -122.23
 }
-Example response
+```
+
+Example response:
+```json
 {
   "predicted_house_price": 4.4441
 }
-Run the Project Locally
-1. Clone the repository
+```
+
+---
+
+## ▶️ Run Locally
+
+```bash
+# 1. Clone the repo
 git clone https://github.com/issa89ai/ml-house-price-deployment.git
 cd ml-house-price-deployment
-2. Create and activate a virtual environment
-Windows
+
+# 2. Create virtual environment
 python -m venv venv
-venv\Scripts\activate
-3. Install dependencies
+venv\Scripts\activate      # Windows
+# source venv/bin/activate  # Mac/Linux
+
+# 3. Install dependencies
 pip install -r requirements.txt
-4. Train the model
 
-Since the trained model file is not included in the repository, generate it locally by running:
-
+# 4. Train the model
 python model/train_model.py
 
-This will create:
-
-model/house_price_model.pkl
-5. Run the FastAPI backend
+# 5. Run the backend
 python -m uvicorn app.main:app --reload
+# → http://127.0.0.1:8000/docs
 
-Backend URL:
-
-http://127.0.0.1:8000
-
-Swagger docs:
-
-http://127.0.0.1:8000/docs
-6. Run the Streamlit frontend
-
-Open a new terminal, activate the virtual environment again, then run:
-
+# 6. Run the frontend (new terminal)
 python -m streamlit run frontend/streamlit_app.py
+# → http://localhost:8501
+```
 
-Frontend URL:
+---
 
-http://localhost:8501
-Run the Backend with Docker
-1. Build the Docker image
+## 🐳 Run with Docker
+
+```bash
 docker build -t housing-api .
-2. Run the Docker container
 docker run -p 8000:8000 housing-api
+# → http://localhost:8000/docs
+```
 
-Then open:
+---
 
-http://localhost:8000/docs
-Key Features
-Trained a Random Forest Regressor on housing data
-Saved and loaded the model using Joblib
-Built a prediction API with FastAPI
-Validated request data using Pydantic
-Built an interactive frontend with Streamlit
-Containerized the backend using Docker
-Learning Goals of This Project
+## 💡 Future Improvements
 
-This project was built to practice and demonstrate:
+- Deploy to cloud (Render, Railway)
+- Add Docker Compose for full stack
+- Add model evaluation metrics to the UI
+- Replace dataset with a business-focused use case
 
-machine learning model serving
-API development
-frontend-backend integration
-containerized deployment
-reproducible project structure
-Future Improvements
+---
 
-Possible next upgrades:
+## 👤 Author
 
-deploy the application to the cloud
-dockerize both backend and frontend together
-add Docker Compose
-replace the dataset with a more business-focused use case such as insurance risk or customer churn
-add model evaluation metrics to the interface
-Author
-
-Ahmad
-Master’s in Computer Science
-Focus: Data Science / Machine Learning / Applied AI
+**Ahmad Issa**  
+Machine Learning Engineer | AI & Data Science  
+[GitHub](https://github.com/issa89ai) · [LinkedIn](https://linkedin.com/in/ahmadissa)
